@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.6.1">
+  <name>smbcw_wrapper</name>
+  <summary>Provides access to smb shares using the small SMBCW wrapper library.</summary>
+  <description>This extension provides access to smb shares using a simple URL
+scheme: smb://user:pws@server/share/ . In order to use this extension you'll need
+to download and install smbcw, a small wrapper library for libsmbclient.</description>
+  <maintainers>
+    <maintainer>
+	  <user>andreas</user>
+      <name>Andreas Stöckel</name>
+      <email>as@stylite.de</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+  <date>2010-05-03</date>
+  <notes>Initial release</notes>
+  <version>1.0</version>
+  <license>GPL</license>
+  <state>stable</state>
+  <filelist>
+   <file role="src" name="config.m4"/>
+   <file role="src" name="smbcw_wrapper.c"/>
+   <file role="src" name="php_smbcw_wrapper.h"/>
+  </filelist>
+ </release>
+</package>
