@@ -153,6 +153,8 @@ static int php_smb_seek(php_stream *stream, off_t offset, int whence, off_t *new
 
 		SMB_CHECK_ERR(ret);
 	}
+	
+	return -1;
 }
 
 static int php_smb_stat(php_stream *stream, php_stream_statbuf *ssb TSRMLS_DC)
