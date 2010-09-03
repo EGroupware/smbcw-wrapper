@@ -87,7 +87,7 @@ int smbcw_assembleflags(char *mode)
 
 	//Validate the mode parameter
 	if ((mode[0] == 'r' || mode[0] == 'w' || mode[0] == 'a' || mode[0] == 'x')
-		&& ((mode[1] == '+' && mode[2] == '\0') || mode[1] == '\0'))
+		&& ((mode[1] == '+' && mode[2] == '\0') || (mode[1] == 'b' && mode[2] == '\0' ) || mode[1] == '\0'))
 	{
 		//Assemble the open mode parameter
 		if (mode[1] == '+')
