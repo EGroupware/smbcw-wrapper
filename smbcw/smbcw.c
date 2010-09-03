@@ -32,12 +32,12 @@ int smbcw_errno = 0;
 
 #define _RETURN(cmd)\
 {\
-int ret = cmd;\
-if (ret < 0)\
+int retval1 = cmd;\
+if (retval1 < 0)\
 	smbcw_errno = errno;\
 else\
 	smbcw_errno = 0;\
-return ret;\
+return retval1;\
 }
 
 #define _RETURN_ERR(err)\
