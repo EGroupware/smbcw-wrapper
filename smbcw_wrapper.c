@@ -62,6 +62,7 @@ void copy_to_php_stat(smbcw_stat *src, struct stat *tar)
 	tar->st_mode = src->s_mode;
 	tar->st_nlink = src->s_nlink;
 	tar->st_uid = src->s_uid;
+	tar->st_gid = src->s_gid;
 	tar->st_rdev = src->s_rdev;
 	tar->st_size = src->s_size;
 	tar->st_blksize = src->s_blksize;
