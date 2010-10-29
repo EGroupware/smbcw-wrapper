@@ -17,41 +17,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMBWC_H
-#define SMBWC_H
+#ifndef _SMBCW_H
+#define _SMBCW_H
 
 #include <stdint.h>
 
 /* The fixed size stat construct internally used by smbcw. See bits/stath.h for
-   more detail */
+	 more detail */
 typedef struct smbcw_stat{
-	uint32_t s_dev;     /* device */
-	uint32_t s_ino;     /* inode */
-	uint32_t s_mode;    /* protection */
-	uint32_t s_nlink;   /* number of hard links */
-	uint32_t s_uid;     /* user ID of owner */
-	uint32_t s_gid;     /* group ID of owner */
-	uint32_t s_rdev;    /* device type (if inode device) */
-	uint64_t s_size;    /* total size, in bytes */
+	uint32_t s_dev;			/* device */
+	uint32_t s_ino;			/* inode */
+	uint32_t s_mode;		/* protection */
+	uint32_t s_nlink;		/* number of hard links */
+	uint32_t s_uid;			/* user ID of owner */
+	uint32_t s_gid;			/* group ID of owner */
+	uint32_t s_rdev;		/* device type (if inode device) */
+	uint64_t s_size;		/* total size, in bytes */
 	uint32_t s_blksize; /* blocksize for filesystem I/O */
-	uint32_t s_blocks;  /* number of blocks allocated */
-	uint32_t s_atime;   /* time of last access */
-	uint32_t s_mtime;   /* time of last modification */
-	uint32_t s_ctime;   /* time of last change */
+	uint32_t s_blocks;	/* number of blocks allocated */
+	uint32_t s_atime;		/* time of last access */
+	uint32_t s_mtime;		/* time of last modification */
+	uint32_t s_ctime;		/* time of last change */
 } smbcw_stat;
 
 /* Inits smbcw. Returns -1 if an error occurred, 0 if the operation was successful. */
 extern int smbcw_init();
 
+/* Finalizes smbcw. Allways call this function before you quit your application to 
+ * avoid memory leaks.
+ */
+extern void smbcw_finalize();
+
 /* Opens the file specified by url. Mode might be one of "r,w,a,x,r+,w+,a+,x+".
-	r  : O_RDONLY
-	r+ : O_RDWR
-	w  : O_WRONLY | O_CREAT | O_TRUNC
-	w+ : O_RDWR | O_CREAT | O_TRUNC
-	a  : O_WRONLY | O_CREAT | O_APPEND
-	a+ : O_RDWR | O_CREAT | O_APPEND
-	x  : O_WRONLY | O_CREAT | O_EXCL
-	x+ : O_RDWR | O_CREAT | O_EXCL 
+    r  : O_RDONLY
+    r+ : O_RDWR
+    w  : O_WRONLY | O_CREAT | O_TRUNC
+    w+ : O_RDWR | O_CREAT | O_TRUNC
+    a  : O_WRONLY | O_CREAT | O_APPEND
+    a+ : O_RDWR | O_CREAT | O_APPEND
+    x  : O_WRONLY | O_CREAT | O_EXCL
+    x+ : O_RDWR | O_CREAT | O_EXCL 
 */
 extern int smbcw_fopen(char *url, char *mode);
 /* Closes the file specified by the file descriptor fd. */
@@ -78,20 +83,21 @@ extern int smbcw_rmdir(char *url);
 extern int smbcw_chmod(char *url, int mode);
 
 /* Openes the directory specified by url and returns a directory descriptor > 0
-  on success, -1 on failure */
+   on success, -1 on failure */
 extern int smbcw_opendir(char *url);
 /* Closes a directory descriptor previously opened by smbcw_opendir */
 extern int smbcw_closedir(int fd);
 /* Reads a directory entry from the directory descriptor fd and writes the file name
-  to name. If name is NULL, readdir has finished. The pointer supplied by name remains
-  valid until the next smbcw_readdir is called or smbcw_closedir or smbcw_rewinddir
-  is called.*/
+   to name. If name is NULL, readdir has finished. The pointer supplied by name remains
+   valid until the next smbcw_readdir is called or smbcw_closedir or smbcw_rewinddir
+   is called.*/
 extern int smbcw_readdir(int fd, char **name);
 /* Rewinds the directory pointer */
 extern int smbcw_rewinddir(int fd);
 
 /* Returns the error code which has been set whenever any of the SMBCW functions
-  failed. */
+   failed. */
 extern int smbcw_geterr();
 
-#endif /* SMBWC_H */
+#endif /* _SMBCW_H */
+
