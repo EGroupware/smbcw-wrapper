@@ -1,0 +1,29 @@
+SMBCW Wrapper
+-------------
+
+1. How to test the smbcw_wrapper package with PHP
+
+	1. Compile and install smbcw
+		- go into the smbcw sub-directory and type:
+> make
+> sudo make install
+
+	2. install the pecl package (you'll need to have the packages ich bphp-pear and php5-dev installed)
+		- go to the smbcw_wrapper root directory and type
+> pecl install package.xml
+
+	3. register the extension in PHP
+		- go to your PHP config directory (e.g. /etc/php5/conf.d/)
+		- create an file called "smbcw_wrapper.ini"
+		- add the following line to it:
+extension=smbcw_wrapper.so
+
+2. How to create an pecl-package
+
+	1. Go into the smbcw_wrapper directory and type
+> pecl package package.xml
+
+	2. An "smbcw_wrapper-1.x.tar" will be created, which can be deployed. Remember
+		that smbcw also has to be installed.
+
+
