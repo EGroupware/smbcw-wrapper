@@ -99,5 +99,7 @@ extern int smbcw_rewinddir(int fd);
    failed. */
 extern int smbcw_geterr();
 
+//extern void smbcw_getattrs(char *url);
+
 #endif /* _SMBCW_H */
 

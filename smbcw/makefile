@@ -9,7 +9,7 @@ smbcw: smbcw.c smbcw.h smbcw_connections.c smbcw_connections.h smbcw_url.c smbcw
 #	strip libsmbcw.so
 
 install:
-	$(INSTALL) libsmbcw.so $(LIBDIR)/libsmbcw.so
+	$(INSTALL) -s libsmbcw.so $(LIBDIR)/libsmbcw.so
 	$(INSTALL) smbcw.h $(DESTDIR)/usr/include/smbcw.h
 
 uninstall:

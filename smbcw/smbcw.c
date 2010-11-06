@@ -33,6 +33,7 @@
  * Alias for an pointer on SMBCCTX
  */
 typedef SMBCCTX *lp_smbcctx;
+typedef SMBCSRV *lp_smbcsrv;
 typedef SMBCFILE *lp_smbcfile;
 
 /* SMBCW Helper functions and macros */
@@ -139,7 +140,11 @@ lp_smbcctx smbcw_get_url_context(char *url, lp_smbcw_url *url_out)
 		{
 			//Set the output url structure, if it does not point to NULL
 			if (url_out)
+			{
 				*url_out = checked_url;
+			} else {
+				smbcw_url_free(checked_url);
+			}
 
 			//Return the context
 			return ctx;
@@ -392,8 +397,6 @@ int smbcw_fstat(int fd, smbcw_stat *stat)
 			if (ret >= 0)
 				smbcw_write_stat(&fstat, stat);
 
-			//TODO: Add read/write access rights.
-
 			return ret;
 		}
 	}
@@ -431,7 +434,15 @@ int smbcw_urlstat(char *url, smbcw_stat *stat)
 			if (ret >= 0)
 				smbcw_write_stat(&fstat, stat);
 
-			//TODO: Add read/write access rights.
+			//Check whether the file is really readable - this is the only information
+			//which might be wrong
+			int fd = smbcw_fopen(url, "r");
+			if (fd > 0) {
+				smbcw_fclose(fd);
+			} else {
+				if (smbcw_geterr() == EACCES)
+					stat->s_mode &= ~(0444);
+			}
 		}
 
 		smbcw_url_free(checked_url);
@@ -692,10 +703,58 @@ int smbcw_rewinddir(int fd)
 
 int smbcw_chmod(char *url, int mode)
 {
-	/*lp_smbcw_url url_desc = smbcw_url_create(url);
+	errno = EINVAL;
+	int ret = -1;
 
-	_RETURN(smbc_chmod(url, mode));*/
+	lp_smbcw_url url_ctx;
+	lp_smbcctx ctx = smbcw_get_url_context(url, &url_ctx);
+
+	if (ctx)
+	{
+		smbc_chmod_fn chmod_fn = smbc_getFunctionChmod(ctx);
+
+		char *fn = smbcw_url_gen_filename(url_ctx);
+
+		if (chmod_fn)
+			ret = chmod_fn(ctx, fn, mode);
+
+		free(fn);
+	}
+
+	_RETURN(ret);
 }
+
+/*void smbcw_getattrs(char *url)
+{
+	lp_smbcw_url url_ctx;
+
+	lp_smbcctx ctx = smbcw_get_url_context(url, &url_ctx);
+	if (ctx)
+	{
+		char *fn = smbcw_url_gen_filename(url_ctx);
+
+		smbc_listxattr_fn listxattr_fn = smbc_getFunctionListxattr(ctx);
+		int size = listxattr_fn(ctx, fn, NULL, 0);
+		if (size >= 0)
+		{
+			char *buf = malloc(size);
+
+			listxattr_fn(ctx, fn, buf, size);
+			char *part = buf;
+			while (size > 0)
+			{
+				printf("%s\n", part);
+
+				size = size - (strlen(part) + 1);
+				part = part + strlen(part) + 1;
+			}
+
+			free(buf);
+		}
+
+		free(fn);
+	}
+}*/
 
 int smbcw_geterr()
 {

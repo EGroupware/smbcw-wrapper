@@ -31,6 +31,13 @@ int main ()
   //Open a file using smbcw
   fd = smbcw_fopen(TEST_URL, "w");
   if (fd > 0) {
+	//Get the stat
+	smbcw_stat stat;
+	smbcw_fstat(fd, &stat);
+	printf("File mode: ");
+	format_mode(stat.s_mode);
+	printf("\n");
+
     //Write a string to it
     smbcw_fwrite(fd, content, strlen(content));
 
