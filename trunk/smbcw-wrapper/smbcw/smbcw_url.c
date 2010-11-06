@@ -183,6 +183,31 @@ char* smbcw_url_gen_filename(lp_smbcw_url url)
 }
 
 /* See url.h */
+char* smbcw_url_get_share(lp_smbcw_url url)
+{
+	char *result = "";
+
+	if (url && url->path)
+	{
+		//Get the the first occurence of "/" and copy the first part of the string
+		char *path = url->path;
+		int pos = 0;
+		while (*path && (*path != '/'))
+		{
+			pos++;
+			path++;
+		}
+
+		result = malloc(pos + 1);
+		memset(result, 0, pos + 1);
+		strncpy(result, url->path, pos);
+	}
+
+	return result;
+}
+
+
+/* See url.h */
 void smbcw_url_free(lp_smbcw_url url)
 {
 	//Free all strings inside the url structure

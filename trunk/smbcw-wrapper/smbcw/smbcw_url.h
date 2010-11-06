@@ -85,5 +85,11 @@ lp_smbcw_url smbcw_url_dup(lp_smbcw_url url);
  */
 char* smbcw_url_gen_filename(lp_smbcw_url url);
 
+/**
+ * Returns a string containing the share the url points to. You're responsible
+ * for freeing the returned string.
+ */
+char* smbcw_url_get_share(lp_smbcw_url url);
+
 #endif /*_URL_H*/
 

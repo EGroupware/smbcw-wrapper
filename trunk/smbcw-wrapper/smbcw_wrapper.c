@@ -52,7 +52,7 @@ ZEND_GET_MODULE(smbcw_wrapper)
 void print_last_smb_err()
 {
 	//Get the smbcw error and print it
-	php_error(E_ERROR, "[SMBCW_WRAPPER ERROR] %s ", strerror(smbcw_geterr()));
+	php_error(E_WARNING, "[SMBCW_WRAPPER WARNING] %s ", strerror(smbcw_geterr()));
 }
 
 void copy_to_php_stat(smbcw_stat *src, struct stat *tar)
@@ -385,6 +385,9 @@ PHP_MINIT_FUNCTION(smbcw)
 
 PHP_MSHUTDOWN_FUNCTION(smbcw)
 {
+	//Finalize smbcw
+	smbcw_finalize();
+
 	//Unregister the SMBCW wrapper library
 	php_unregister_url_stream_wrapper("smb" TSRMLS_CC);	
 

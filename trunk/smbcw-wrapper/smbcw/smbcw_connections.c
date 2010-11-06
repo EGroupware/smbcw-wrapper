@@ -176,8 +176,16 @@ void smbc_auth_callback(SMBCCTX *c, const char *srv, const char *shr, char *wg,
 	lp_smbcw_connection con = (lp_smbcw_connection)smbc_getOptionUserData(c);
 
 	//Set the workgroup to the default dummy workgroup
-	if (wg && strlen(DEFAULT_WORKGROUP) < wglen)
-		strcpy(wg, DEFAULT_WORKGROUP);
+	if (wg) {
+		char *env_wg = getenv("WORKGROUP");
+		if (env_wg) {
+			if (env_wg && str_len(env_wg) < wglen)
+				strcpy(wg, env_wg);
+		} else {
+			if (wg && strlen(DEFAULT_WORKGROUP) < wglen)
+				strcpy(wg, DEFAULT_WORKGROUP);
+		}
+	}
 
 	//Set the username the the username specified in the url - if it is set
 	if (un) {

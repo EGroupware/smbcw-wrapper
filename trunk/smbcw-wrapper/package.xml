@@ -15,9 +15,9 @@ to download and install smbcw, a small wrapper library for libsmbclient.</descri
     </maintainer>
   </maintainers>
   <release>
-  <date>2010-05-03</date>
+  <date>2010-06-11</date>
   <notes>Initial release</notes>
-  <version>1.0</version>
+  <version>1.1</version>
   <license>GPL</license>
   <state>stable</state>
   <filelist>
