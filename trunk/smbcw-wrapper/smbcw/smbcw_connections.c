@@ -179,7 +179,7 @@ void smbc_auth_callback(SMBCCTX *c, const char *srv, const char *shr, char *wg,
 	if (wg) {
 		char *env_wg = getenv("WORKGROUP");
 		if (env_wg) {
-			if (env_wg && str_len(env_wg) < wglen)
+			if (env_wg && strlen(env_wg) < wglen)
 				strcpy(wg, env_wg);
 		} else {
 			if (wg && strlen(DEFAULT_WORKGROUP) < wglen)
