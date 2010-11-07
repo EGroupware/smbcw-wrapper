@@ -19,9 +19,14 @@ function get_access($mode)
 
 
 $url = "smb://smb_user:smb_user@localhost/smb_test/foo.test";
+if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1)
+{
+	$url = $_SERVER['argv'][1];
+}
 
 if (is_readable($url))
 {
+	echo preg_replace('|://[^@]+@|','://',$url)."\r\n";
 	$fd = fopen($url, "r");
 	if ($fd) {
 		while (!feof($fd)) {
@@ -35,16 +40,18 @@ if (is_readable($url))
 }
 
 //List the given directory
-$url = "smb://smb_user:smb_user@localhost/smb_test/";
+$url = preg_replace('|/[^/]+$|','/',$url);
+
 $fd = opendir($url);
 if ($fd)
 {
+	echo "\r\n".preg_replace('|://[^@]+@|','://',$url)."\r\n";
 	while (false !== ($file = readdir($fd)))
 	{
 		//Get the stat
 		$stat = stat($url.$file);
 		
-		echo(get_access($stat['mode'])." $file\n");
+		echo(get_access($stat['mode'])."\t$stat[size]\t$stat[uid]\t$stat[gid]\t$file\n");
 	}
 }
 
