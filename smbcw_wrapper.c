@@ -74,7 +74,7 @@ void copy_to_php_stat(smbcw_stat *src, struct stat *tar)
 #define SMB_CHECK_ERR(err)\
 if (err < 0) {\
 print_last_smb_err();\
-return -1;} else return 0;\
+return 0;} else return 1;\
 
 struct _php_smb_data {
 	int fd;
@@ -132,13 +132,13 @@ static int php_smb_close(php_stream *stream, int close_handle TSRMLS_DC)
 
 	free_smb_data(self);
 
-	return 0;
+	return 1;
 }
 
 static int php_smb_flush(php_stream *stream TSRMLS_DC)
 {
 	//!
-	return 0;
+	return 1;
 }
 
 static int php_smb_seek(php_stream *stream, off_t offset, int whence, off_t *newoffset TSRMLS_DC)
@@ -155,7 +155,7 @@ static int php_smb_seek(php_stream *stream, off_t offset, int whence, off_t *new
 		SMB_CHECK_ERR(ret);
 	}
 	
-	return -1;
+	return 0;
 }
 
 static int php_smb_stat(php_stream *stream, php_stream_statbuf *ssb TSRMLS_DC)
@@ -170,13 +170,13 @@ static int php_smb_stat(php_stream *stream, php_stream_statbuf *ssb TSRMLS_DC)
 		if (smbcw_fstat(self->fd, &st) == 0)
 		{
 			copy_to_php_stat(&st, &ssb->sb);
-			return 0;
+			return 1;
 		}
 
 		print_last_smb_err();
 	}
 	
-	return -1;
+	return 0;
 }
 
 php_stream_ops php_stream_smb_ops = {
@@ -252,7 +252,7 @@ static int php_smb_dirstream_close(php_stream *stream, int close_handle TSRMLS_D
 
 	free_smb_data(self);
 	
-	return 0;
+	return 1;
 }
 
 static int php_smb_dirstream_rewind(php_stream *stream, off_t offset, int whence, off_t *newoffs TSRMLS_DC)
@@ -265,7 +265,7 @@ static int php_smb_dirstream_rewind(php_stream *stream, off_t offset, int whence
 		SMB_CHECK_ERR(err);
 	}
 	
-	return -1;
+	return 0;
 }
 
 
