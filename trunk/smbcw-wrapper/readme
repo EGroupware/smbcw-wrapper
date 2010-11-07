@@ -8,7 +8,7 @@ SMBCW Wrapper
 > make
 > sudo make install
 
-	2. install the pecl package (you'll need to have the packages ich php-pear and php5-dev installed)
+	2. install the pecl package (you'll need to have the packages php-pear and php5-dev installed)
 		- go to the smbcw_wrapper root directory and type
 > pecl install package.xml
 

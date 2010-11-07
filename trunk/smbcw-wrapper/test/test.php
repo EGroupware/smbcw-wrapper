@@ -33,7 +33,8 @@ if (is_readable($url))
 			$str = fread($fd,512);
 			echo($str);
 		}
-		fclose($fd);
+		if (fclose($fd))
+			echo("Closing the file was successful.");
 	}
 } else {
 	echo("Url $url is not readable.\n");
@@ -50,7 +51,7 @@ if ($fd)
 	{
 		//Get the stat
 		$stat = stat($url.$file);
-		
+
 		echo(get_access($stat['mode'])."\t$stat[size]\t$stat[uid]\t$stat[gid]\t$file\n");
 	}
 }
