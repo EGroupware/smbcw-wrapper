@@ -8,12 +8,12 @@ SMBCW Wrapper
 > make
 > sudo make install
 
-	2. install the pecl package (you'll need to have the packages ich bphp-pear and php5-dev installed)
+	2. install the pecl package (you'll need to have the packages ich php-pear and php5-dev installed)
 		- go to the smbcw_wrapper root directory and type
 > pecl install package.xml
 
 	3. register the extension in PHP
-		- go to your PHP config directory (e.g. /etc/php5/conf.d/)
+		- go to your PHP config directory (e.g. /etc/php5/conf.d/ or /etc/php.d/)
 		- create an file called "smbcw_wrapper.ini"
 		- add the following line to it:
 extension=smbcw_wrapper.so
