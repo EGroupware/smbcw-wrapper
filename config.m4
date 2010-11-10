@@ -3,7 +3,7 @@ PHP_ARG_ENABLE(smbcw_wrapper, whether to enable Libsmpclient_wrapper support,
 
 if test "$PHP_SMBCW_WRAPPER" = "yes"; then
   AC_MSG_CHECKING(for SMBCW in default path)
-  for i in /usr/local/lib /usr/lib; do
+  for i in /usr/lib64 /usr/local/lib /usr/lib; do
     if test -r $i/libsmbcw.so; then
       SMBCW_DIR=$i
       AC_MSG_RESULT(found in $i)
