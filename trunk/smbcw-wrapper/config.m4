@@ -20,7 +20,6 @@ if test "$PHP_SMBCW_WRAPPER" != "no"; then
   PHP_CHECK_LIBRARY(smbclient, smbc_getFunctionOpen,
   [
     PHP_ADD_LIBRARY_WITH_PATH(smbclient, $SMB_DIR, SMBCW_WRAPPER_SHARED_LIBADD)
-    echo "Added Library"
     AC_DEFINE(HAVE_SMBLIB,1,[ ])
   ],[
     AC_MSG_ERROR([wrong smbclient version or lib not found])
@@ -33,7 +32,6 @@ if test "$PHP_SMBCW_WRAPPER" != "no"; then
   dnl AC_DEFINE(HAVE_SMB, 1, [Whether you have smbclient installed])
 
   PHP_SUBST(SMBCW_WRAPPER_SHARED_LIBADD)
-  echo "ext_shared: $ext_shared"
 
   dnl PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c smbcw/smbcw.c smbcw/smbcw_url.c smbcw/smbcw_descriptor.c smbcw/smbcw_connections.c, $ext_shared)
   PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c smbcw/smbcw.c smbcw/smbcw_url.c smbcw/smbcw_descriptor.c smbcw/smbcw_connections.c, $ext_shared)
