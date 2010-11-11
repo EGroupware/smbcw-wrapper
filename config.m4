@@ -17,7 +17,7 @@ if test "$PHP_SMBCW_WRAPPER" != "no"; then
     AC_MSG_ERROR([Please reinstall libsmbclient])
   fi
   dnl PHP_ADD_INCLUDE(/usr/include)
-  PHP_CHECK_LIBRARY(smbclient, smbc_set_context,
+  PHP_CHECK_LIBRARY(smbclient, smbc_open_fn,
   [
     PHP_ADD_LIBRARY_WITH_PATH(smbclient, $SMB_DIR, SMBCW_WRAPPER_SHARED_LIBADD)
     echo "Added Library"
