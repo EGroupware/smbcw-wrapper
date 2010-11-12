@@ -8,7 +8,7 @@ scheme: smb://user:pws@server/share/ . In order to use this extension you'll nee
 to download and install smbcw, a small wrapper library for libsmbclient.</description>
   <maintainers>
     <maintainer>
-	  <user>andreas</user>
+      <user>andreas</user>
       <name>Andreas Stöckel</name>
       <email>as@stylite.de</email>
       <role>lead</role>
@@ -21,9 +21,22 @@ to download and install smbcw, a small wrapper library for libsmbclient.</descri
   <license>GPL</license>
   <state>stable</state>
   <filelist>
-   <file role="src" name="config.m4"/>
-   <file role="src" name="smbcw_wrapper.c"/>
-   <file role="src" name="php_smbcw_wrapper.h"/>
+   <dir name="/">
+    <file role="src" name="config.m4"/>
+    <dir role="src" name="smbcw">
+     <file role="src" name="smbcw_connections.h"/>
+     <file role="src" name="smbcw.c"/>
+     <file role="src" name="smbcw_connections.c"/>
+     <file role="src" name="smbcw_url.c"/>
+     <file role="src" name="smbcw.h"/>
+     <file role="src" name="smbcw_common.h"/>
+     <file role="src" name="smbcw_descriptor.c"/>
+     <file role="src" name="smbcw_descriptor.h"/>
+     <file role="src" name="smbcw_url.h"/>
+    </dir>
+    <file role="src" name="smbcw_wrapper.c"/>
+    <file role="src" name="php_smbcw_wrapper.h"/>
+   </dir>
   </filelist>
  </release>
 </package>
