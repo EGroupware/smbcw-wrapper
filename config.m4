@@ -34,6 +34,6 @@ if test "$PHP_SMBCW_WRAPPER" != "no"; then
   PHP_SUBST(SMBCW_WRAPPER_SHARED_LIBADD)
 
   dnl PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c smbcw/smbcw.c smbcw/smbcw_url.c smbcw/smbcw_descriptor.c smbcw/smbcw_connections.c, $ext_shared)
-  PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c smbcw/smbcw.c smbcw/smbcw_url.c smbcw/smbcw_descriptor.c smbcw/smbcw_connections.c, $ext_shared)
+  PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c smbcw/smbcw.c smbcw/smbcw_url.c smbcw/smbcw_descriptor.c smbcw/smbcw_connections.c, $ext_shared, ,-D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE )
   dnl PHP_NEW_EXTENSION(smbcw_wrapper, smbcw_wrapper.c, $ext_shared)
 fi
