@@ -24,7 +24,7 @@
 #include "php_smbcw_wrapper.h"
 #include <stdio.h>
 #include <errno.h>
-#include <smbcw.h>
+#include "smbcw/smbcw.h"
 #include <sys/stat.h>
 
 static function_entry smbcw_wrapper_functions[] = {
