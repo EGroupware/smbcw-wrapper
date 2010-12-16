@@ -19,7 +19,7 @@ if test "$PHP_SMBCW_WRAPPER" != "no"; then
   dnl PHP_ADD_INCLUDE(/usr/include)
   dnl PHP_CHECK_LIBRARY(smbclient, smbc_getFunctionOpen,
   dnl [
-    dnl PHP_ADD_LIBRARY_WITH_PATH(smbclient, $SMB_DIR, SMBCW_WRAPPER_SHARED_LIBADD)
+    PHP_ADD_LIBRARY_WITH_PATH(smbclient, $SMB_DIR, SMBCW_WRAPPER_SHARED_LIBADD)
     AC_DEFINE(HAVE_SMBLIB,1,[ ])
   dnl ],[
   dnl   AC_MSG_ERROR([wrong smbclient version or lib not found])
