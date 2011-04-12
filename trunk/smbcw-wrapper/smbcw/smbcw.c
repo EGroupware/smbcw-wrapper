@@ -29,6 +29,7 @@
 #include "smbcw_connections.h"
 #include "smbcw_descriptor.h"
 
+
 /**
  * Alias for an pointer on SMBCCTX
  */
@@ -179,8 +180,14 @@ int smbcw_init()
 	//Initialize the smbcw connection manager
 	connections_init();
 
+
+	/*smbc_init is only needed if we would be using the deprecated compatibility
+	  layer provided in libsmb_compat.h
+
 	//Intialize libsmbclient and return the initialization result
-	_RETURN(smbc_init(smb_auth_fn, 0));
+	_RETURN(smbc_init(smb_auth_fn, MAX_DEBUG_LEVEL));*/
+
+	_RETURN(0);
 }
 
 void smbcw_finalize()
@@ -436,12 +443,25 @@ int smbcw_urlstat(char *url, smbcw_stat *stat)
 
 			//Check whether the file is really readable - this is the only information
 			//which might be wrong
-			int fd = smbcw_fopen(url, "r");
-			if (fd > 0) {
-				smbcw_fclose(fd);
-			} else {
-				if (smbcw_geterr() == EACCES)
-					stat->s_mode &= ~(0444);
+			if (stat->s_mode & S_IFDIR )
+			{
+				int fd = smbcw_opendir(url);
+				if (fd > 0) {
+					smbcw_closedir(fd);
+				} else {
+					if (smbcw_geterr() == EACCES)
+						stat->s_mode &= ~(0555);
+				}
+			}
+			else
+			{
+				int fd = smbcw_fopen(url, "r");
+				if (fd > 0) {
+					smbcw_fclose(fd);
+				} else {
+					if (smbcw_geterr() == EACCES)
+						stat->s_mode &= ~(0555);
+				}
 			}
 		}
 
