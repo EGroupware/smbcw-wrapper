@@ -226,6 +226,7 @@ SMBCCTX * connections_get_ctx(lp_smbcw_url url)
 
 		//Create a new context
 		lp_smbcctx ctx = smbc_new_context();
+		smbc_setDebug(ctx, 0);
 		
 		//Initialize the newly created context
 		if (!smbc_init_context(ctx)) {

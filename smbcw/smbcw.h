@@ -22,6 +22,11 @@
 
 #include <stdint.h>
 
+/**
+ * MAX_DEBUG_LEVEL should be equal to SMBs MAX_DEBUG_LEVEL
+ */
+#define MAX_DEBUG_LEVEL 1000
+
 /* The fixed size stat construct internally used by smbcw. See bits/stath.h for
 	 more detail */
 typedef struct smbcw_stat{
