@@ -205,8 +205,8 @@ void smbcw_write_stat(struct stat *src, smbcw_stat *tar)
 	tar->s_ino = src->st_ino;
 	tar->s_mode = src->st_mode;
 	tar->s_nlink = src->st_nlink;
-	tar->s_uid = src->st_uid;
-	tar->s_gid = src->st_gid;
+	tar->s_uid = 0; //src->st_uid; uid and gid contain the webserver URL
+	tar->s_gid = 0; //src->st_gid;
 	tar->s_rdev = src->st_rdev;
 	tar->s_size = src->st_size;
 	tar->s_blksize = src->st_blksize;
@@ -442,25 +442,34 @@ int smbcw_urlstat(char *url, smbcw_stat *stat)
 				smbcw_write_stat(&fstat, stat);
 
 			//Check whether the file is really readable - this is the only information
-			//which might be wrong
-			if (stat->s_mode & S_IFDIR )
-			{
-				int fd = smbcw_opendir(url);
-				if (fd > 0) {
-					smbcw_closedir(fd);
-				} else {
-					if (smbcw_geterr() == EACCES)
+			//which might be wrong as windows only has a READONLY flag - so files
+			//are always marked as readable although this might not be true when
+			//connecting to a Samba/UNIX server
+			int fd = smbcw_fopen(url, "r");
+			if (fd > 0) {
+				smbcw_fclose(fd);
+			} else {
+				if (smbcw_geterr() == EACCES)
+				{
+					// Check whether the file is a directory - if yes, the EACCES
+					// error might have been triggered although we have read access
+					// on the directory. If this is the case perform an "opendir"
+					// to validate. Unfortunately "opendir" takes much time - thats
+					// why it is placed inside the outer check.
+					if (stat->s_mode & S_IFDIR)
+					{
+						int fd = smbcw_opendir(url);
+						if (fd > 0) {
+							smbcw_closedir(fd);
+						} else {
+							if (smbcw_geterr() == EACCES)
+								stat->s_mode &= ~(0777);
+						}
+					}
+					else
+					{
 						stat->s_mode &= ~(0555);
-				}
-			}
-			else
-			{
-				int fd = smbcw_fopen(url, "r");
-				if (fd > 0) {
-					smbcw_fclose(fd);
-				} else {
-					if (smbcw_geterr() == EACCES)
-						stat->s_mode &= ~(0555);
+					}
 				}
 			}
 		}
