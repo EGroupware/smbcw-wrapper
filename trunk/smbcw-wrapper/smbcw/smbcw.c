@@ -205,8 +205,8 @@ void smbcw_write_stat(struct stat *src, smbcw_stat *tar)
 	tar->s_ino = src->st_ino;
 	tar->s_mode = src->st_mode;
 	tar->s_nlink = src->st_nlink;
-	tar->s_uid = 0; //src->st_uid; uid and gid contain the webserver URL
-	tar->s_gid = 0; //src->st_gid;
+	tar->s_uid = src->st_uid; uid and gid contain the webserver URL
+	tar->s_gid = src->st_gid;
 	tar->s_rdev = src->st_rdev;
 	tar->s_size = src->st_size;
 	tar->s_blksize = src->st_blksize;
