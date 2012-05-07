@@ -4,7 +4,7 @@ PHP_ARG_ENABLE(smbcw_wrapper, whether to enable libsmbclient_wrapper support,
 if test "$PHP_SMBCW_WRAPPER" != "no"; then
   PHP_ADD_INCLUDE(smbcw)
   AC_MSG_CHECKING([for libsmbclient in default path])
-  for i in /usr/lib64 /usr/local/lib /usr/lib /usr/lib/i386-linux-gnu; do
+  for i in /usr/lib64 /usr/local/lib /usr/lib /usr/lib/i386-linux-gnu /usr/lib/x86_64-linux-gnu; do
     if test -r $i/libsmbclient.so; then
       SMB_DIR=$i
       AC_MSG_RESULT(found in $i)
