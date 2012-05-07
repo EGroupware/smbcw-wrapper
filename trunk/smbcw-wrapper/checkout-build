@@ -3,15 +3,15 @@
 cd `dirname $0`
 
 #update checkout
-osc up obs/php-pecl-smb obs/php53-pecl-smb #obs/libsmbcw
+osc up obs/php-pecl-smb #obs/php53u-pecl-smb #obs/libsmbcw
 svn up
 
 #tar --exclude smbcw/.svn --exclude smbcw/test -czvf obs/libsmbcw/smbcw.tar.gz smbcw 
 
 tar --exclude smbcw-wrapper/.svn --exclude smbcw-wrapper/smbcw/.svn --exclude smbcw-wrapper/smbcw/test --exclude smbcw-wrapper/obs --exclude smbcw-wrapper/test --exclude smbcw-wrapper/checkout-build --exclude smbcw-wrapper/readme -czvf obs/php-pecl-smb/smbcw_wrapper.tar.gz ../smbcw-wrapper
-cp obs/php-pecl-smb/smbcw_wrapper.tar.gz obs/php53-pecl-smb/smbcw_wrapper.tar.gz
+#cp obs/php-pecl-smb/smbcw_wrapper.tar.gz obs/php53u-pecl-smb/smbcw_wrapper.tar.gz
 
-osc commit -m 'new smbcw version' obs/php-pecl-smb obs/php53-pecl-smb #obs/libsmbcw
+osc commit -m 'new smbcw version' obs/php-pecl-smb #obs/php53u-pecl-smb #obs/libsmbcw
 
 pecl package package.xml
 mv smbcw_wrapper*.tgz download
