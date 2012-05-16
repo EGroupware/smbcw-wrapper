@@ -27,7 +27,7 @@
 #include "smbcw/smbcw.h"
 #include <sys/stat.h>
 
-static function_entry smbcw_wrapper_functions[] = {
+static zend_function_entry smbcw_wrapper_functions[] = {
     PHP_FE(smb_chmod, NULL)
     {NULL, NULL, NULL}
 };
