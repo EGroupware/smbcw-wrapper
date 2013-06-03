@@ -82,6 +82,69 @@ void _str_split(char *in, char **left, char **right, const char *delem, int dir)
 }
 
 /**
+ * Return integer value of a hex character
+ *
+ * @param char c 0-9, A-F or a-f
+ * @return int 0-15 on success or -1 on error (non-hex char)
+ */
+int _hex2int(char c)
+{
+	if ('0' <= c && c <= '9')
+	{
+		return c - '0';
+	}
+	if ('A' <= c && c <= 'F')
+	{
+		return 10+(c - 'A');
+	}
+	if ('a' <= c && c <= 'f')
+	{
+		return 10+(c - 'a');
+	}
+	return -1;	// error
+}
+
+/**
+ * URL decode a string
+ *
+ * As a string get shorter by url decoding, we dont have to reallocate memory!
+ *
+ * @param char *str
+ */
+void _str_url_decode(char *str)
+{
+	char *dst = str;
+	int upper, lower;
+
+	while(*str)
+	{
+		if (*str == '%')
+		{
+			// %% --> %
+			if (*(str+1) == '%')
+			{
+				str += 2;
+				dst++;
+				continue;
+			}
+			// %HH H=[0-9A-Fa-f], everything else is left unchanged (so we can not read over '\0'!)
+			if ((upper = _hex2int(*(str+1))) != -1 && (lower = _hex2int(*(str+2))) != -1)
+			{
+				*dst++ = upper << 4 | lower;
+				str += 3;
+				continue;
+			}
+		}
+		// + encodes a space
+		if (*str == '+') *str = ' ';
+		// regular char --> nothing to do, just increment both pointers
+		str++;
+		dst++;
+	}
+	*dst = '\0';
+}
+
+/**
  * Parses the given url string and writes the parts into the url descriptor.
  * Internally used.
  * @param url is the pointer to the current smbcw url descriptor
@@ -100,6 +163,7 @@ int _smbcw_url_parse(lp_smbcw_url url, char *url_str)
 		_str_split(tmp, &tmp, &(url->path), "/", -1);
 		_str_split(tmp, &tmp, &tmp2, "@", 1);
 		_str_split(tmp, &(url->user), &(url->password), ":", -1);
+		_url_decode(url->password);
 		_str_split(tmp2, &(url->host), &(url->port), ":", -1);	
 	} else {
 		url->path = tmp;
