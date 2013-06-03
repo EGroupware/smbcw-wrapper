@@ -21,6 +21,8 @@
 #include <string.h>
 
 #include "smbcw_url.h"
+// include php.h to be able to use: php_error(E_WARNING, "[SMBCW_WRAPPER] %s", str)
+#include "php.h"
 
 /**
  * Splits a string to a left and a right part at the first occurence of delem.
@@ -114,32 +116,32 @@ int _hex2int(char c)
 void _str_url_decode(char *str)
 {
 	char *dst = str;
+	char *src = str;
 	int upper, lower;
 
-	while(*str)
+	while(*src)
 	{
-		if (*str == '%')
+		if (*src == '%')
 		{
 			// %% --> %
-			if (*(str+1) == '%')
+			if (*(src+1) == '%')
 			{
-				str += 2;
+				src += 2;
 				dst++;
 				continue;
 			}
 			// %HH H=[0-9A-Fa-f], everything else is left unchanged (so we can not read over '\0'!)
-			if ((upper = _hex2int(*(str+1))) != -1 && (lower = _hex2int(*(str+2))) != -1)
+			if ((upper = _hex2int(*(src+1))) != -1 && (lower = _hex2int(*(src+2))) != -1)
 			{
 				*dst++ = upper << 4 | lower;
-				str += 3;
+				src += 3;
 				continue;
 			}
 		}
 		// + encodes a space
-		if (*str == '+') *str = ' ';
-		// regular char --> nothing to do, just increment both pointers
-		str++;
-		dst++;
+		if (*src == '+') *src = ' ';
+		// regular char --> just copy
+		*dst++ = *src++;
 	}
 	*dst = '\0';
 }
@@ -163,6 +165,7 @@ int _smbcw_url_parse(lp_smbcw_url url, char *url_str)
 		_str_split(tmp, &tmp, &(url->path), "/", -1);
 		_str_split(tmp, &tmp, &tmp2, "@", 1);
 		_str_split(tmp, &(url->user), &(url->password), ":", -1);
+		_str_url_decode(url->user);
 		_str_url_decode(url->password);
 		_str_split(tmp2, &(url->host), &(url->port), ":", -1);	
 	} else {
