@@ -163,7 +163,7 @@ int _smbcw_url_parse(lp_smbcw_url url, char *url_str)
 		_str_split(tmp, &tmp, &(url->path), "/", -1);
 		_str_split(tmp, &tmp, &tmp2, "@", 1);
 		_str_split(tmp, &(url->user), &(url->password), ":", -1);
-		_url_decode(url->password);
+		_str_url_decode(url->password);
 		_str_split(tmp2, &(url->host), &(url->port), ":", -1);	
 	} else {
 		url->path = tmp;
