@@ -3,27 +3,49 @@ SMBCW Wrapper
 
 1. How to test the smbcw_wrapper package with PHP
 
-	1. Compile and install smbcw
-		- go into the smbcw sub-directory and type:
-> make
-> sudo make install
+	1. Make a svn checkout on a maschine with make, autoconfig, gcc,
+	   php-devel, php-pear, php-cli and samba-devel installed
+	
+		svn co svn+ssh://stylite@svn.stylite.de/stylite/trunk/smbcw-wrapper
 
-	2. install the pecl package (you'll need to have the packages php-pear and php5-dev installed)
-		- go to the smbcw_wrapper root directory and type
-> pecl install package.xml
+	2. Compile and install pecl package: go to the smbcw_wrapper root directory and type
+		
+		pecl install package.xml
+		
+		It will install smbcw_wrapper.so (after compiling) into php's module directory.
+		Command will fail, if smbcw_wrapper is already installed, need to uninstall it first:
+		
+		pecl uninstall smbcw_wrapper
 
 	3. register the extension in PHP
 		- go to your PHP config directory (e.g. /etc/php5/conf.d/ or /etc/php.d/)
-		- create an file called "smbcw_wrapper.ini"
-		- add the following line to it:
+		- create an file called "smbcw.ini" with following content:
 extension=smbcw_wrapper.so
 
-2. How to create an pecl-package
+	4. debugging smbcw:
+		- #include "php.h" (if not already done in that file, it contains php_error macro)
+		- add something like: php_error(E_WARNING, "test=%s", str);
+		- uninstall and reinstall (compile) smbcw_wrapper
+		- most easy to run it from command line, eg.
+			
+			php -r 'var_dump(scandir("smb://domain%5CAdministrator:Secret@10.44.44.47/netlogon"));'
+			php -r 'var_dump(scandir("smb://Administrator:Secret@10.44.44.181/Daten"));'
+			
+		- php-cli will send php_error to stderr (EGroupware might have warnings suppressed!)
+
+2. How to create an pecl-package (tgz)
 
 	1. Go into the smbcw_wrapper directory and type
 > pecl package package.xml
 
-	2. An "smbcw_wrapper-1.x.tar" will be created, which can be deployed. Remember
-		that smbcw also has to be installed.
+	2. An "smbcw_wrapper-1.x.tgz" will be created, which can be installed via
+	
+		pecl install smbcw_wrapper-1.x.tgz
+		
+3. Building package on obs.stylite.de:
 
-
+	- ssh stylite@obs
+	- cd ~/smbcw-wrapper
+	- ./checkout-build
+	- it will update sources from svn, commit them as tgz to obs (which starts building them) and
+	  copyies pecl package smbcw_wrapper-1.x.tgz to download.stylite.de
