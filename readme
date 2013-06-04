@@ -48,4 +48,4 @@ extension=smbcw_wrapper.so
 	- cd ~/smbcw-wrapper
 	- ./checkout-build
 	- it will update sources from svn, commit them as tgz to obs (which starts building them) and
-	  copyies pecl package smbcw_wrapper-1.x.tgz to download.stylite.de
+	  copies pecl package smbcw_wrapper-1.x.tgz to download.stylite.de
