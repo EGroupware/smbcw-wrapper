@@ -3,10 +3,10 @@ SMBCW Wrapper
 
 1. How to test the smbcw_wrapper package with PHP
 
-	1. Make a svn checkout on a maschine with make, autoconfig, gcc,
+	1. Make a git clone on a maschine with make, autoconfig, gcc,
 	   php-devel, php-pear, php-cli and samba-devel installed
 	
-		svn co svn+ssh://stylite@svn.stylite.de/stylite/trunk/smbcw-wrapper
+		git clone https://github.com/EGroupware/smbcw-wrapper.git
 
 	2. Compile and install pecl package: go to the smbcw_wrapper root directory and type
 		
